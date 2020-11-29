@@ -74,4 +74,5 @@ fn loop_array(){
     for number in 1..5 {
         println!("{}", number);
     }
+
 }
