@@ -42,6 +42,87 @@ impl Circle{
     }
 }
 
+#[derive(Debug)]
+enum IpAddrKind {
+    V4,
+    V6,
+}
+
+#[derive(Debug)]
+struct IpAddr {
+    kind: IpAddrKind,
+    address: String,
+}
+
+#[derive(Debug)]
+enum IPAddr {
+    V4(String),
+    V6(String),
+}
+
+#[derive(Debug)]
+enum IPAddrs {
+    V4(u8,u8,u8,u8),
+    V6(String),
+}
+
+#[derive(Debug)]
+enum Message{
+    Quit,
+    Move{x: i32, y: i32},
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+impl Message{
+    fn call(&self){
+        println!("{:#?}", self);
+    }
+}
+
+
+fn route(ip_kind:   IpAddrKind){
+    println!("{:#?}", ip_kind); // the ":#?" is pretty printing format
+    address_use();
+
+    let home = IPAddr::V4(String::from("127.0.0.1"));
+    let loopback = IPAddr::V6(String::from("::1"));
+    println!("{:#?}", home);
+    println!("{:#?}", loopback);
+    let home = IPAddrs::V4(127,0,0,1);
+    let loopback = IPAddrs::V6(String::from("::2"));
+    println!("{:#?}", home);
+    println!("{:#?}", loopback);
+
+    let m = Message::Write(String::from("The message we want to send"));
+    m.call();
+    println!("{:#?}", m);
+    let q = Message::Quit{};
+    println!("{:?}", q);
+
+    let mo = Message::Move{x:10,y:11};
+    mo.call();
+
+    let chc = Message::ChangeColor(123,124,125);
+    chc.call();
+
+}
+
+
+fn address_use(){
+    let home = IpAddr{
+        kind: IpAddrKind::V4, 
+        address: String::from("127.0.0.1")
+    };
+
+    let loopback = IpAddr{
+        kind: IpAddrKind::V6,
+        address: String::from("::1")
+    };
+    println!("Slef Address is {:#?}", home);
+    println!("Loopback address is {:#?}", loopback);
+}
+
 fn main() {
     println!("Hello, Rust Methods!");
 
@@ -56,5 +137,9 @@ fn main() {
     println!("Can rect1 hold rect3 {}", rect1.can_hold_rect(&rect3));
 
     println!("Square id {:#?}", Rectangle::square(10));
+    let four = IpAddrKind::V4;
+    let six = IpAddrKind::V6;
+    route(four);
+    route(six);
 }
 
